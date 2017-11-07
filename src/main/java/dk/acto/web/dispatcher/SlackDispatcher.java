@@ -7,6 +7,8 @@ import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -14,6 +16,7 @@ import java.io.StringWriter;
 
 public class SlackDispatcher extends AbstractDispatcher{
     private final Mustache mustache = new DefaultMustacheFactory().compile("slacktemplate.mustache");
+    private final Logger logger = LoggerFactory.getLogger(SlackDispatcher.class);
 
     SlackDispatcher(String configuration, String apiKey) {
         super(configuration, apiKey);
@@ -26,14 +29,12 @@ public class SlackDispatcher extends AbstractDispatcher{
             StringWriter temp = new StringWriter();
             this.mustache.execute(temp, result.asJava()).flush();
 
-            System.out.println(
             Request.Post(getConfiguration())
                     .bodyString(String.format("{\"text\":\"%s\"}", temp.toString()) , ContentType.APPLICATION_JSON )
-                    .execute().returnContent()
-            );
+                    .execute().returnContent();
             return "Ok";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("SlackDispatcher threw exception", e);
         }
         return "Not Ok";
     }
