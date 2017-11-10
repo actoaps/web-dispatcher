@@ -33,3 +33,7 @@ webhook URL.
 
 * dispatcher - the actual dispatcher to use, currently only
 "Slack" is a valid value.
+
+The service by default runs on port 8080. The simplest way
+to change this ()other than in the code), is remapping it in
+Docker. 
