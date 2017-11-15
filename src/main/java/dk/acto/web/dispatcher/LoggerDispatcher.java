@@ -4,7 +4,7 @@ import dk.acto.web.DispatchMessage;
 import io.vavr.collection.List;
 
 public class LoggerDispatcher extends AbstractDispatcher {
-    public LoggerDispatcher(String configuration, String apiKey) {
+    LoggerDispatcher(String configuration, String apiKey) {
         super(configuration, apiKey);
     }
 

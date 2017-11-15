@@ -9,7 +9,7 @@ public interface Dispatcher {
     default String dispatch( DispatchMessage message) {
         Logger logger = LoggerFactory.getLogger(Dispatcher.class);
         logger.info(String.valueOf(message));
-        return "";
+        return "Ok";
     }
 
     List<String> validate(DispatchMessage message);

@@ -19,7 +19,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
     }
 
 
-    public String getConfiguration() {
+    String getConfiguration() {
         return configuration;
     }
 

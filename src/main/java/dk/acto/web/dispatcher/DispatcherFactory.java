@@ -7,7 +7,8 @@ import io.vavr.Function2;
 
 public class DispatcherFactory {
     private final ImmutableMap<String, Function2<String, String, Dispatcher>> factoryMap = ImmutableMap.of(
-            "Slack", (SlackDispatcher::new)
+            "Slack", SlackDispatcher::new,
+            "Log", LoggerDispatcher::new
     );
 
     public Dispatcher of(DispatcherConfig dispatcherConfig) {
