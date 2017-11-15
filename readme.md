@@ -12,7 +12,7 @@ to a ```lib``` folder). A ready to go Docker image is available
 at [Docker hub](https://hub.docker.com/r/actoaps/web-dispatcher/)
 
 Configuration is supplied through en environment variable called
-```ACTO_CONF``` in JSON format. An example follows:
+```ACTO_CONF``` in JSON format. For Slack this could look like this:
 
     {
         "path": {
@@ -21,19 +21,35 @@ Configuration is supplied through en environment variable called
             "dispatcher": "Slack"
         }
     }
+    
+For the slf4j Logger it might look like this: 
+
+    {
+        "path": {
+            "apiKey": "2J5GCMcBWw2dMFPyquu364aNjf8AD6ss",
+            "config": "",
+            "dispatcher": "Log"
+        }
+    }
+
+Which you can then call with curl like this:
+
+    curl -d '{"Hello":"World"}' -H "Authorization: Bearer 2J5GCMcBWw2dMFPyquu364aNjf8AD6ss" -X POST http://localhost:8080/path
 
 Each path is defined by the components.
 
 * apiKey - the apiKey that you must send as 
-the```Authorization``` header of your post request
+the```Authorization``` header of your post request You may omit the
+"Bearer" type if you want, but bear in mind that certain proxies may
+think it's a defective header and remove it.
 
 * config - the configuration for the given dispatcher. The
 configuration for the slack dispatcher is simply the
 webhook URL.  
 
 * dispatcher - the actual dispatcher to use, currently only
-"Slack" is a valid value.
+"Slack" and "Log" are valid values.
 
 The service by default runs on port 8080. The simplest way
-to change this ()other than in the code), is remapping it in
-Docker. 
+to change this (other than in the code), is remapping it in
+Docker.

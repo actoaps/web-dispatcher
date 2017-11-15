@@ -9,11 +9,16 @@ import dk.acto.web.dispatcher.DispatcherFactory;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static spark.Spark.port;
 import static spark.Spark.post;
 
 public class Main {
+
+    private static final Pattern auth = Pattern.compile("^([Bb]earer\\s+)?(.+)$");
+
     public static void main(String[] args) {
 
         final JsonParser jp = new JsonParser();
@@ -28,12 +33,14 @@ public class Main {
             }
 
             Dispatcher d = dispatcherMap.get(dispatcher);
-            String apiKey = request.headers("Authorization");
-            if (apiKey == null) {
+            String authString = request.headers("Authorization");
+            Matcher matcher = auth.matcher(authString);
+            if (!matcher.matches()) {
                 response.status(401);
                 return "401 Unauthorized";
             }
 
+            String apiKey = matcher.group(2);
             if (!apiKey.equals(d.getApiKey())) {
                 response.status(403);
                 return "403 Forbidden";
