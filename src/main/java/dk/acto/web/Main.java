@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
 
@@ -24,6 +25,15 @@ public class Main {
         final JsonParser jp = new JsonParser();
         final Map<String, Dispatcher> dispatcherMap = configure(new Gson(), jp);
         port(8080);
+
+        options("/:dispatcher", (request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Headers","origin, content-type, accept, authorization");
+            response.header("Access-Control-Allow-Credentials", "true");
+            response.header("Access-Control-Allow-Methods","POST, OPTIONS");
+            return "";
+        });
+
         post("/:dispatcher", (request, response) -> {
             String dispatcher = request.params(":dispatcher");
 
