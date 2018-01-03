@@ -69,6 +69,7 @@ public class Main {
                 return "400 Bad Request (Malformed request)";
             }
 
+            response.header("Access-Control-Allow-Origin", "*");
             return d.dispatch(message);
         });
     }
