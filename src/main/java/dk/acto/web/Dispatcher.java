@@ -8,7 +8,7 @@ public interface Dispatcher {
 
     default String dispatch( DispatchMessage message) {
         Logger logger = LoggerFactory.getLogger(Dispatcher.class);
-        logger.info(String.valueOf(message));
+        logger.info( "%s", message );
         return "Ok";
     }
 
