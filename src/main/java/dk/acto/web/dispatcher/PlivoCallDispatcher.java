@@ -5,14 +5,11 @@ import dk.acto.web.DispatchMessage;
 import io.vavr.collection.List;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 
 @Slf4j
 public class PlivoCallDispatcher extends AbstractDispatcher {
-    private final static String url  = "https://api.plivo.com/v1/Account/%s/Call/";
+    private static final String URL = "https://api.plivo.com/v1/Account/%s/Call/";
     private final Gson gson = new Gson();
 
     PlivoCallDispatcher(String configuration, String apiKey) {
@@ -39,7 +36,7 @@ public class PlivoCallDispatcher extends AbstractDispatcher {
         );
 
         Request request = new Request.Builder()
-                .url(String.format(url, split[0]))
+                .url(String.format(URL, split[0]))
                 .header("Authorization", creds)
                 .post(body)
                 .build();
@@ -48,6 +45,7 @@ public class PlivoCallDispatcher extends AbstractDispatcher {
             client.newCall(request).execute();
             return "Ok";
         } catch (IOException e) {
+            log.error("PlivoCallDispatcher threw exception", e);
             return "Not Ok";
         }
     }

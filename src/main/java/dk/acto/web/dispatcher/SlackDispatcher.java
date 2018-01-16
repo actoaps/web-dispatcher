@@ -5,6 +5,7 @@ import com.github.mustachejava.Mustache;
 import dk.acto.web.DispatchMessage;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,10 +16,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.StringWriter;
 
-
+@Slf4j
 public class SlackDispatcher extends AbstractDispatcher{
     private final Mustache mustache = new DefaultMustacheFactory().compile("slacktemplate.mustache");
-    private final Logger logger = LoggerFactory.getLogger(SlackDispatcher.class);
 
     SlackDispatcher(String configuration, String apiKey) {
         super(configuration, apiKey);
@@ -46,7 +46,7 @@ public class SlackDispatcher extends AbstractDispatcher{
             return "Ok";
 
         } catch (IOException e) {
-            logger.error("SlackDispatcher threw exception", e);
+            log.error("SlackDispatcher threw exception", e);
         }
         return "Not Ok";
     }
