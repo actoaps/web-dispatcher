@@ -1,9 +1,16 @@
 package dk.acto.web.dispatcher;
 
+import com.google.common.escape.Escapers;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dk.acto.web.Dispatcher;
+import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
+import org.apache.commons.text.StringEscapeUtils;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public abstract class AbstractDispatcher implements Dispatcher {
     private final String configuration;
@@ -15,9 +22,37 @@ public abstract class AbstractDispatcher implements Dispatcher {
     }
 
     List<Tuple2<String, String>> flattenJson(JsonObject src) {
-        return List.ofAll(src.entrySet()).map(x -> new Tuple2<>(x.getKey(), x.getValue().getAsString()));
+        return List.ofAll(unpack(src));
     }
 
+    private ArrayList<Tuple2<String, String>> unpack(JsonObject jsonObject) {
+        ArrayList<Tuple2<String, String>> result = new ArrayList<>();
+        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+            JsonElement nextNode = entry.getValue();
+            if (nextNode.isJsonPrimitive()) {
+                result.add(Tuple.of(entry.getKey(), entry.getValue().getAsString()));
+            }
+            if (nextNode.isJsonObject()) {
+                result.addAll(unpack(nextNode.getAsJsonObject()));
+            }
+            if (nextNode.isJsonArray()) {
+                result.add(Tuple.of(entry.getKey(), nextNode.getAsJsonArray().get(0).getAsString()));
+            }
+        }
+        return result;
+    }
+
+
+    String entityDecode(String src) {
+        return StringEscapeUtils.unescapeXml(src);
+    }
+
+    String encodeNewLines(String src) {
+        return Escapers.builder()
+                .addEscape('\n', "\n")
+                .build()
+                .escape(src);
+    }
 
     String getConfiguration() {
         return configuration;
