@@ -45,6 +45,10 @@ public class SlackDispatcher extends AbstractDispatcher{
     }
 
     private List<Tuple2<String, String>> parse(DispatchMessage message) {
-        return flattenJson(message.getPayload());
+
+        return flattenJson(message.getPayload())
+                .map(x -> x.update2(entityDecode(x._2())))
+                .map(x -> x.update2(encodeNewLines(x._2())));
+
     }
 }
