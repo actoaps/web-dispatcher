@@ -13,6 +13,8 @@ pipeline {
         stage("mvn build") {
             steps {
                 sh 'mvn clean install'
+                junit allowEmptyResults: true, testResults: '/target/surefire-reports/**/*.xml'
+
             }
         }
 
@@ -21,13 +23,6 @@ pipeline {
                 withSonarQubeEnv('Sonar') {
                     sh "${tool 'SonarScanner'}/bin/sonar-scanner"
                 }
-            }
-        }
-
-        stage ("archive jar") {
-            steps {
-                archive 'target/*.jar'
-                archive 'target/lib/**/*'
             }
         }
 
