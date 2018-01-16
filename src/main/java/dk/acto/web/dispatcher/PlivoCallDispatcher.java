@@ -3,16 +3,18 @@ package dk.acto.web.dispatcher;
 import com.google.gson.Gson;
 import dk.acto.web.DispatchMessage;
 import io.vavr.collection.List;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+@Slf4j
 public class PlivoCallDispatcher extends AbstractDispatcher {
-    private final Logger logger = LoggerFactory.getLogger(PlivoCallDispatcher.class);
-    private final String url  = "https://api.plivo.com/v1/Account/%s/Call/";
+    private final static String url  = "https://api.plivo.com/v1/Account/%s/Call/";
     private final Gson gson = new Gson();
+
     PlivoCallDispatcher(String configuration, String apiKey) {
         super(configuration, apiKey);
     }
@@ -43,7 +45,7 @@ public class PlivoCallDispatcher extends AbstractDispatcher {
                 .build();
 
         try {
-            Response response = client.newCall(request).execute();
+            client.newCall(request).execute();
             return "Ok";
         } catch (IOException e) {
             return "Not Ok";

@@ -6,3 +6,5 @@ syntax: regexp
 
 # Maven
 target/
+jacoco.exec
+
