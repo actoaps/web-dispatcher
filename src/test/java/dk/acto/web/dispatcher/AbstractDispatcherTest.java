@@ -53,14 +53,22 @@ public class AbstractDispatcherTest {
         JsonObject json = jp.parse(test).getAsJsonObject();
         LoggerDispatcher subject = new LoggerDispatcher("", "a");
         List<Tuple2<String, String>> result = subject.flattenJson(json);
-        assertEquals(4, result.length());
+        assertEquals(result.length(), 4);
     }
 
     @Test
-    public void testEntityDecode() throws Exception {
+    public void testDecodeEntities() throws Exception {
+        String test = "Hello&#10;&#9;world";
+        LoggerDispatcher subject = new LoggerDispatcher("", "a");
+        String result = subject.decodeEntities(test);
+        assertEquals(result, "Hello\n\tworld");
     }
 
     @Test
     public void testEncodeNewLines() throws Exception {
+        String test = "Hello\nworld";
+        LoggerDispatcher subject = new LoggerDispatcher("", "a");
+        String result = subject.encodeNewLines(test);
+        assertEquals( result, "Hello\\nworld");
     }
 }

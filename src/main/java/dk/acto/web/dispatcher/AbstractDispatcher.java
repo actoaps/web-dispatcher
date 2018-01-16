@@ -43,13 +43,13 @@ public abstract class AbstractDispatcher implements Dispatcher {
     }
 
 
-    String entityDecode(String src) {
+    String decodeEntities(String src) {
         return StringEscapeUtils.unescapeXml(src);
     }
 
     String encodeNewLines(String src) {
         return Escapers.builder()
-                .addEscape('\n', "\n")
+                .addEscape('\n', "\\n")
                 .build()
                 .escape(src);
     }
