@@ -26,7 +26,7 @@ public class Main {
         final Map<String, Dispatcher> dispatcherMap = configure(new Gson(), jp);
         port(8080);
 
-        options("/:dispatcher", (request, response) -> {
+        options("*", (request, response) -> {
             response.header("Access-Control-Allow-Origin", "*");
             response.header("Access-Control-Allow-Headers","origin, content-type, accept, authorization");
             response.header("Access-Control-Allow-Credentials", "true");
@@ -34,8 +34,8 @@ public class Main {
             return "";
         });
 
-        post("/:dispatcher", (request, response) -> {
-            String dispatcher = request.params(":dispatcher");
+        post("*", (request, response) -> {
+            String dispatcher = request.pathInfo();
 
             if (!dispatcherMap.containsKey(dispatcher)) {
                 response.status(404);
