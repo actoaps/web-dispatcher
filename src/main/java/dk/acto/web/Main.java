@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dk.acto.web.config.DispatcherConfig;
 import dk.acto.web.dispatcher.DispatcherFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -16,6 +17,7 @@ import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
 
+@Slf4j
 public class Main {
 
     private static final Pattern auth = Pattern.compile("^([Bb]earer\\s+)?(.+)$");
@@ -35,7 +37,10 @@ public class Main {
         });
 
         post("*", (request, response) -> {
-            String dispatcher = request.pathInfo();
+            String dispatcher = request.pathInfo().substring(1);
+
+            log.info(dispatcher);
+            log.info(String.join(", ", dispatcherMap.keySet()));
 
             if (!dispatcherMap.containsKey(dispatcher)) {
                 response.status(404);
