@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        docker.image('actoaps/web-dispatcher').push('latest')
+                        docker.image('actoaps/web-dispatcher').push('1.0.' + env.BUILD_NUMBER).push('latest')
                     }
                 }
             }
