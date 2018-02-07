@@ -26,19 +26,13 @@ pipeline {
             }
         }
 
-        stage("docker build") {
-            steps {
-                script {
-                    docker.build('actoaps/web-dispatcher')
-                }
-            }
-        }
-
-        stage("docker push") {
+        stage("docker ") {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        docker.image('actoaps/web-dispatcher').push('1.0.' + env.BUILD_NUMBER).push('latest')
+                        def temp = docker.build('actoaps/web-dispatcher')
+                        temp.push('1.0.${BUILD_NUMBER}')
+                        temp.push('latest')
                     }
                 }
             }
