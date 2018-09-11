@@ -41,7 +41,7 @@ public class PlivoFlowDispatcher extends AbstractDispatcher {
                 .add("Content-Type", "application/json")
                 .build();
 
-        String completeUrl = String.format("%s%s%s", URL + split[0] + "/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654");
+        String completeUrl = String.format("%s%s/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654", URL, split[0]);
 
         Request request = new Request.Builder()
                 .url(completeUrl)
