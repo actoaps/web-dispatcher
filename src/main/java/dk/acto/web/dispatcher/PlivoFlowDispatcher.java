@@ -41,13 +41,16 @@ public class PlivoFlowDispatcher extends AbstractDispatcher {
                 .add("Content-Type", "application/json")
                 .build();
 
+        String completeUrl = String.format("%s%s%s", URL + split[0] + "/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654");
+
         Request request = new Request.Builder()
-                .url(URL + split[0] + "/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654")
+                .url(completeUrl)
                 .headers(headers)
                 .post(body)
                 .build();
 
         try {
+            log.info(String.format("Making a request for: %s", completeUrl));
             client.newCall(request).execute();
             return "Success";
         } catch (IOException e) {
