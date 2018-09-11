@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @Slf4j
 public class PlivoFlowDispatcher extends AbstractDispatcher {
-    private static final String URL = "https://phlorunner.plivo.com/v1/account/MAODIWMMUYNGRMNTY4NZ/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654";
+    private static final String URL = "https://phlorunner.plivo.com/v1/account/";
     private final Gson gson = new Gson();
 
     PlivoFlowDispatcher(String configuration, String apiKey) {
@@ -37,8 +37,9 @@ public class PlivoFlowDispatcher extends AbstractDispatcher {
         );
 
         Request request = new Request.Builder()
-                .url(URL)
+                .url(URL + split[0] + "/phlo/" + getApiKey())
                 .header("Authorization", creds)
+                .header("Content-Type", "application/json")
                 .post(body)
                 .build();
 
