@@ -37,9 +37,9 @@ public class PlivoFlowDispatcher extends AbstractDispatcher {
         );
 
         Request request = new Request.Builder()
-                .url(URL + split[0] + "/phlo/" + getApiKey())
-                .header("Authorization", creds)
-                .header("Content-Type", "application/json")
+                .url(URL + split[0] + "/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654")
+                .addHeader("Authorization", creds)
+                .addHeader("Content-Type", "application/json")
                 .post(body)
                 .build();
 
