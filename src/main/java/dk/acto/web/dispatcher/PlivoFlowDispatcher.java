@@ -36,10 +36,14 @@ public class PlivoFlowDispatcher extends AbstractDispatcher {
                 gson.toJson(message.getPayload())
         );
 
+        Headers headers = new Headers.Builder()
+                .add("Authorization", creds)
+                .add("Content-Type", "application/json")
+                .build();
+
         Request request = new Request.Builder()
                 .url(URL + split[0] + "/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654")
-                .addHeader("Authorization", creds)
-                .addHeader("Content-Type", "application/json")
+                .headers(headers)
                 .post(body)
                 .build();
 
