@@ -67,7 +67,7 @@ public class Main {
                 return "400 Bad Request (Empty Body)";
             }
 
-            JsonObject root  = jp.parse((request.body())).getAsJsonObject();
+            JsonObject root = jp.parse((request.body())).getAsJsonObject();
             DispatchMessage message = new DispatchMessage(dispatcher, root);
             if (!d.validate(message).isEmpty()){
                 response.status(400);
