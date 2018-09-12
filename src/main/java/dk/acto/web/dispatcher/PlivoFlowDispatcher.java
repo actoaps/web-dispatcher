@@ -25,6 +25,7 @@ public class PlivoFlowDispatcher extends AbstractDispatcher {
 
     @Override
     public String dispatch(DispatchMessage message) {
+        log.info(message.toString());
 
         String[] split = getConfiguration().split(",");
         String creds = Credentials.basic(split[0], split[1]);
@@ -40,14 +41,16 @@ public class PlivoFlowDispatcher extends AbstractDispatcher {
                 .add("Authorization", creds)
                 .add("Content-Type", "application/json")
                 .build();
+        log.info(headers.toString());
 
         String completeUrl = String.format("%s%s/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654", URL, split[0]);
 
         Request request = new Request.Builder()
                 .url(completeUrl)
                 .headers(headers)
-                .post(body)
+                .method("POST", body)
                 .build();
+        log.info(request.toString());
 
         try {
             log.info(String.format("Making a request for: %s", completeUrl));
