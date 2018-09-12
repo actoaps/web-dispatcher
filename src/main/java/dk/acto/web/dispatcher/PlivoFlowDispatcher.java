@@ -36,21 +36,26 @@ public class PlivoFlowDispatcher extends AbstractDispatcher {
                 MediaType.parse(("application/json")),
                 gson.toJson(message.getPayload())
         );
+        log.info(gson.toJson(message.getPayload()));
 
-        Headers headers = new Headers.Builder()
-                .add("Authorization", creds)
-                .add("Content-Type", "application/json")
-                .build();
-        log.info(headers.toString());
+//        Headers headers = new Headers.Builder()
+//                .add("Authorization", creds)
+//                .add("Content-Type", "application/json")
+//                .build();
+//        log.info(headers.toString());
 
         String completeUrl = String.format("%s%s/phlo/a081a57a-5f45-4f39-a4b4-8511449bd654", URL, split[0]);
 
         Request request = new Request.Builder()
                 .url(completeUrl)
-                .headers(headers)
+                .addHeader("Authorization", creds)
                 .method("POST", body)
                 .build();
         log.info(request.toString());
+        log.info("Headers:");
+        log.info(request.headers().toString());
+        log.info("Body content-type:");
+        log.info(request.body().contentType().toString());
 
         try {
             log.info(String.format("Making a request for: %s", completeUrl));
