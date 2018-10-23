@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Slf4j
 public class TwilioDispatcher extends AbstractDispatcher {
@@ -27,27 +29,40 @@ public class TwilioDispatcher extends AbstractDispatcher {
     public String dispatch(DispatchMessage message) {
         String[] split = getConfiguration().split(",");
         String creds = Credentials.basic(split[0], split[1]);
+        String toNumber = message.getPayload().get("to").getAsString();
+        String fromNumber = message.getPayload().get("from").getAsString();
+        String bodyString = String.format("To=%s&From=%s", toNumber, fromNumber);
 
-        OkHttpClient client = new OkHttpClient();
-
-        RequestBody body = RequestBody.create(
-                MediaType.parse(("application/x-www-form-urlencoded")),
-                gson.toJson(message.getPayload())
-        );
-
-        Request request = new Request.Builder()
-                .url(String.format(URL, getApiKey()))
-                .addHeader("Authorization", creds)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .method("POST", body)
-                .build();
-
+        log.info(message.toString());
+        log.info(toNumber);
+        log.info(fromNumber);
         try {
-            client.newCall(request).execute();
-            return "Success";
-        } catch (IOException e) {
-            log.error("Twilio dispatcher threw exception", e);
-            return "Error";
+            String encodedBody = URLEncoder.encode(bodyString, "UTF-8");
+            log.info(encodedBody);
+
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody body = RequestBody.create(
+                    MediaType.parse(("application/x-www-form-urlencoded")),
+                    encodedBody
+            );
+
+            Request request = new Request.Builder()
+                    .url(String.format(URL, getApiKey()))
+                    .addHeader("Authorization", creds)
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .method("POST", body)
+                    .build();
+
+            try {
+                client.newCall(request).execute();
+                return "Success";
+            } catch (IOException e) {
+                log.error("Twilio dispatcher threw exception", e);
+                return "Error";
+            }
+        } catch (UnsupportedEncodingException e) {
+            log.error("Twilio URL encoding threw exception", e);
         }
     }
 }
