@@ -64,5 +64,6 @@ public class TwilioDispatcher extends AbstractDispatcher {
         } catch (UnsupportedEncodingException e) {
             log.error("Twilio URL encoding threw exception", e);
         }
+        return "Error";
     }
 }
