@@ -10,7 +10,8 @@ public class DispatcherFactory {
             "Slack", SlackDispatcher::new,
             "PlivoCall", PlivoCallDispatcher::new,
             "PlivoFlow", PlivoFlowDispatcher::new,
-            "Log", LoggerDispatcher::new
+            "Log", LoggerDispatcher::new,
+            "Twilio", TwilioDispatcher::new
     );
 
     public Dispatcher of(DispatcherConfig dispatcherConfig) {
