@@ -22,6 +22,17 @@ Configuration is supplied through en environment variable called
         }
     }
     
+For Twilio you need to insert your ACCOUNT SID, AUTH TOKEN and FlowSid (from the URL you need to call), seperated by commas.
+So the ACTO_CONF should look something like this:
+
+    {
+        "path": {
+            "apiKey": "3YbHicBWw2dMFPyquu364aNjf8AD7qw",
+            "config": "YB61ab31f3cda598f0c3a0d8c25bbdd2qb,i42q06162eeeb929f54161we1b976391,Ybc1f6358d03fdac395a41febec191873o",
+            "dispatcher": "Twilio"
+        }
+    } 
+    
 For the slf4j Logger it might look like this: 
 
     {
