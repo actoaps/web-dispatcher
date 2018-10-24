@@ -31,24 +31,29 @@ public class TwilioDispatcher extends AbstractDispatcher {
         String creds = Credentials.basic(split[0], split[1]);
         String toNumber = message.getPayload().get("to").getAsString();
         String fromNumber = message.getPayload().get("from").getAsString();
-        String bodyString = String.format("To=%s&From=%s", toNumber, fromNumber);
 
-        log.info(message.toString());
-        log.info(toNumber);
-        log.info(fromNumber);
         try {
-            String encodedBody = URLEncoder.encode(bodyString, "UTF-8");
-            log.info(encodedBody);
+            String bodyString = String.format("To=%s&From=%s",
+                    URLEncoder.encode(toNumber, "UTF-8"),
+                    URLEncoder.encode(fromNumber, "UTF-8"));
+
+            log.info(toNumber);
+            log.info(fromNumber);
+
 
             OkHttpClient client = new OkHttpClient();
 
             RequestBody body = RequestBody.create(
                     MediaType.parse(("application/x-www-form-urlencoded")),
-                    encodedBody
+                    bodyString
             );
 
+            String completeURL = String.format(URL, getApiKey();
+
+            log.info("Posting to: ", completeURL);
+
             Request request = new Request.Builder()
-                    .url(String.format(URL, getApiKey()))
+                    .url(completeURL)
                     .addHeader("Authorization", creds)
                     .addHeader("Content-Type", "application/x-www-form-urlencoded")
                     .method("POST", body)
