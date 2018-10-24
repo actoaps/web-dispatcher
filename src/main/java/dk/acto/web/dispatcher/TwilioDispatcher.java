@@ -39,6 +39,7 @@ public class TwilioDispatcher extends AbstractDispatcher {
 
             log.info(toNumber);
             log.info(fromNumber);
+            log.info(bodyString);
 
 
             OkHttpClient client = new OkHttpClient();
@@ -48,9 +49,9 @@ public class TwilioDispatcher extends AbstractDispatcher {
                     bodyString
             );
 
-            String completeURL = String.format(URL, getApiKey());
+            String completeURL = String.format(URL, split[2]);
 
-            log.info("Posting to: ", completeURL);
+            log.info(completeURL);
 
             Request request = new Request.Builder()
                     .url(completeURL)
@@ -61,6 +62,7 @@ public class TwilioDispatcher extends AbstractDispatcher {
 
             try {
                 client.newCall(request).execute();
+                log.info("Success");
                 return "Success";
             } catch (IOException e) {
                 log.error("Twilio dispatcher threw exception", e);
