@@ -48,7 +48,7 @@ public class TwilioDispatcher extends AbstractDispatcher {
                     bodyString
             );
 
-            String completeURL = String.format(URL, getApiKey();
+            String completeURL = String.format(URL, getApiKey());
 
             log.info("Posting to: ", completeURL);
 
