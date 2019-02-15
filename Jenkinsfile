@@ -5,14 +5,13 @@ pipeline {
 	}
 
     tools {
-        maven 'Maven3'
-        jdk 'jdk9'
+        jdk 'jdk11'
     }
 
     stages {
-        stage("mvn build") {
+        stage("gradle build") {
             steps {
-                sh 'mvn clean install'
+                sh './gradlew build'
                 junit allowEmptyResults: true, testResults: '/target/surefire-reports/**/*.xml'
 
             }
