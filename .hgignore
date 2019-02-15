@@ -1,10 +1,21 @@
 syntax: regexp
 
-# Intellij
-\.idea
+# IntelliJ
+\.idea/
 .*\.iml$
+^out/
 
 # Maven
 target/
 jacoco.exec
 
+# Mac things
+\.DS_Store
+\.AppleDouble
+\.LSOverride
+
+# Gradle
+^\.gradle
+/\.gradle
+^build/
+gradle.properties

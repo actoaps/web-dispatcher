@@ -79,7 +79,7 @@ public class Main {
         });
     }
 
-    private static Map<String, Dispatcher> configure (Gson gson, JsonParser parser ) {
+    static Map<String, Dispatcher> configure (Gson gson, JsonParser parser ) {
 
         final String configString = System.getenv("ACTO_CONF");
         final DispatcherFactory df = new DispatcherFactory();
