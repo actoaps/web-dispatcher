@@ -1,7 +1,8 @@
-package dk.acto.web.dispatcher;
+package dk.acto.web.dispatcher.implementation;
 
 import com.google.gson.Gson;
 import dk.acto.web.DispatchMessage;
+import dk.acto.web.dispatcher.AbstractDispatcher;
 import io.vavr.collection.List;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -12,7 +13,7 @@ public class PlivoCallDispatcher extends AbstractDispatcher {
     private static final String URL = "https://api.plivo.com/v1/Account/%s/Call/";
     private final Gson gson = new Gson();
 
-    PlivoCallDispatcher(String configuration, String apiKey) {
+    public PlivoCallDispatcher(String configuration, String apiKey) {
         super(configuration, apiKey);
     }
 

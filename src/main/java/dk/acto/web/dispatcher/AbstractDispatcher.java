@@ -3,7 +3,6 @@ package dk.acto.web.dispatcher;
 import com.google.common.escape.Escapers;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dk.acto.web.Dispatcher;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
@@ -16,12 +15,12 @@ public abstract class AbstractDispatcher implements Dispatcher {
     private final String configuration;
     private final String apiKey;
 
-    AbstractDispatcher(String configuration, String apiKey) {
+    public AbstractDispatcher(String configuration, String apiKey) {
         this.configuration = configuration;
         this.apiKey = apiKey;
     }
 
-    List<Tuple2<String, String>> flattenJson(JsonObject src) {
+    protected List<Tuple2<String, String>> flattenJson(JsonObject src) {
         return List.ofAll(unpack(src));
     }
 
@@ -43,18 +42,18 @@ public abstract class AbstractDispatcher implements Dispatcher {
     }
 
 
-    String decodeEntities(String src) {
+    protected String decodeEntities(String src) {
         return StringEscapeUtils.unescapeXml(src);
     }
 
-    String encodeNewLines(String src) {
+    protected String encodeNewLines(String src) {
         return Escapers.builder()
                 .addEscape('\n', "\\n")
                 .build()
                 .escape(src);
     }
 
-    String getConfiguration() {
+    protected String getConfiguration() {
         return configuration;
     }
 

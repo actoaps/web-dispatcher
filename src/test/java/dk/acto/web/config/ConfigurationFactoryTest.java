@@ -1,6 +1,6 @@
 package dk.acto.web.config;
 
-import dk.acto.web.dispatcher.LoggerDispatcher;
+import dk.acto.web.dispatcher.implementation.LoggerDispatcher;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;

@@ -1,8 +1,9 @@
-package dk.acto.web.dispatcher;
+package dk.acto.web.dispatcher.implementation;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import dk.acto.web.DispatchMessage;
+import dk.acto.web.dispatcher.AbstractDispatcher;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +16,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 @Slf4j
-public class SlackDispatcher extends AbstractDispatcher{
+public class SlackDispatcher extends AbstractDispatcher {
     private final Mustache mustache = new DefaultMustacheFactory().compile("slacktemplate.mustache");
 
-    SlackDispatcher(String configuration, String apiKey) {
+    public SlackDispatcher(String configuration, String apiKey) {
         super(configuration, apiKey);
     }
 
