@@ -1,7 +1,7 @@
-FROM openjdk:9.0.1-11-slim
+FROM openjdk:11.0.1-slim
 
-COPY target/web-dispatcher-1.0-SNAPSHOT.jar ./web-dispatcher.jar
-COPY target/lib/* ./lib/
+ADD build/distributions/web-dispatcher-1.0.tar ./
+WORKDIR ./web-dispatcher-1.0
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","./web-dispatcher.jar"]
+ENTRYPOINT ["bin/web-dispatcher"]
