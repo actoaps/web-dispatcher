@@ -11,17 +11,8 @@ pipeline {
     stages {
         stage("gradle build") {
             steps {
-                sh './gradlew build'
+                sh './gradlew build -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_LOGIN'
                 junit allowEmptyResults: true, testResults: '/target/surefire-reports/**/*.xml'
-
-            }
-        }
-
-        stage ("sonar analysis") {
-            steps {
-                withSonarQubeEnv('Sonar') {
-                    sh "${tool 'SonarScanner'}/bin/sonar-scanner"
-                }
             }
         }
 
