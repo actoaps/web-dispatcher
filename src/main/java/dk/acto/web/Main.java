@@ -1,11 +1,8 @@
 package dk.acto.web;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import dk.acto.web.config.DispatcherConfig;
-import dk.acto.web.dispatcher.DispatcherFactory;
+import dk.acto.web.config.ConfigurationFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,9 +10,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static spark.Spark.options;
-import static spark.Spark.port;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 @Slf4j
 public class Main {
@@ -23,9 +18,9 @@ public class Main {
     private static final Pattern auth = Pattern.compile("^([Bb]earer\\s+)?(.+)$");
 
     public static void main(String[] args) {
-
         final JsonParser jp = new JsonParser();
-        final Map<String, Dispatcher> dispatcherMap = configure(new Gson(), jp);
+
+        final Map<String, Dispatcher> dispatcherMap = ConfigurationFactory.configure();
         port(8080);
 
         options("*", (request, response) -> {
@@ -77,19 +72,5 @@ public class Main {
             response.header("Access-Control-Allow-Origin", "*");
             return d.dispatch(message);
         });
-    }
-
-    static Map<String, Dispatcher> configure (Gson gson, JsonParser parser ) {
-
-        final String configString = System.getenv("ACTO_CONF");
-        final DispatcherFactory df = new DispatcherFactory();
-
-        JsonObject conf = parser.parse(configString).getAsJsonObject();
-        ImmutableMap.Builder<String, Dispatcher> builder = ImmutableMap.builder();
-        conf.entrySet().forEach(x ->
-                        builder.put(
-                            x.getKey(),
-                            df.of(gson.fromJson(x.getValue(), DispatcherConfig.class))));
-        return builder.build();
     }
 }
