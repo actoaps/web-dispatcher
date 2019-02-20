@@ -3,6 +3,7 @@ package dk.acto.web;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dk.acto.web.config.ConfigurationFactory;
+import dk.acto.web.dispatcher.Dispatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,7 +1,8 @@
-package dk.acto.web.dispatcher;
+package dk.acto.web.dispatcher.implementation;
 
 import com.google.gson.Gson;
 import dk.acto.web.DispatchMessage;
+import dk.acto.web.dispatcher.AbstractDispatcher;
 import io.vavr.collection.List;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -15,7 +16,7 @@ public class TwilioDispatcher extends AbstractDispatcher {
     private static final String URL = "https://studio.twilio.com/v1/Flows/%s/Executions";
     private final Gson gson = new Gson();
 
-    TwilioDispatcher(String configuration, String apiKey) {
+    public TwilioDispatcher(String configuration, String apiKey) {
         super(configuration, apiKey);
     }
 

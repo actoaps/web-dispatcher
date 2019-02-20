@@ -2,6 +2,7 @@ package dk.acto.web.dispatcher;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dk.acto.web.dispatcher.implementation.LoggerDispatcher;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import org.testng.annotations.Test;

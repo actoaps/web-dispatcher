@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import dk.acto.web.Dispatcher;
+import dk.acto.web.dispatcher.Dispatcher;
 import dk.acto.web.dispatcher.DispatcherFactory;
 
 import java.util.Map;

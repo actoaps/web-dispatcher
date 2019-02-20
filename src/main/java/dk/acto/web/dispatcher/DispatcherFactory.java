@@ -1,8 +1,8 @@
 package dk.acto.web.dispatcher;
 
 import com.google.common.collect.ImmutableMap;
-import dk.acto.web.Dispatcher;
 import dk.acto.web.config.DispatcherConfig;
+import dk.acto.web.dispatcher.implementation.*;
 import io.vavr.Function2;
 
 public class DispatcherFactory {
