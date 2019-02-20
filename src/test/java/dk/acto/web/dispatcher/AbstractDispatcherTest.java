@@ -11,7 +11,7 @@ import static org.testng.Assert.assertEquals;
 public class AbstractDispatcherTest {
 
     @Test
-    public void testFlattenExampleJson() throws Exception {
+    public void testFlattenExampleJson(){
         String test = "{\n" +
                 "    \"glossary\": {\n" +
                 "        \"title\": \"example glossary\",\n" +
@@ -42,7 +42,7 @@ public class AbstractDispatcherTest {
     }
 
     @Test
-    public void testFlattenJson() throws Exception {
+    public void testFlattenJson(){
         String test = "{\n" +
                 "\"name\":\"name\",\n" +
                 "\"email\":\"email\",\n" +
@@ -57,7 +57,7 @@ public class AbstractDispatcherTest {
     }
 
     @Test
-    public void testDecodeEntities() throws Exception {
+    public void testDecodeEntities(){
         String test = "Hello&#10;&#9;world";
         LoggerDispatcher subject = new LoggerDispatcher("", "a");
         String result = subject.decodeEntities(test);
@@ -65,7 +65,7 @@ public class AbstractDispatcherTest {
     }
 
     @Test
-    public void testEncodeNewLines() throws Exception {
+    public void testEncodeNewLines(){
         String test = "Hello\nworld";
         LoggerDispatcher subject = new LoggerDispatcher("", "a");
         String result = subject.encodeNewLines(test);
