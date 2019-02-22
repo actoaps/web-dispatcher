@@ -49,3 +49,31 @@ mainClassName = 'dk.acto.web.Main'
 test {
     useTestNG()
 }
+
+distributions {
+    main {
+        contents {
+            filesMatching("**/bootstrap") {
+                expand (["executeMe": "bin/" + project.name,
+                         "ltr":"\$LAMBDA_TASK_ROOT"
+                ])
+            }
+            into "/"
+        }
+    }
+}
+
+runtime {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    modules = ["java.base", "java.logging"]
+}
+
+task prepareLambda(type: Zip) {
+    archiveClassifier = "lambda"
+    from("$buildDir/image") {
+        into "/"
+    }
+}
+
+prepareLambda.dependsOn("runtime")
+build.finalizedBy("prepareLambda")
