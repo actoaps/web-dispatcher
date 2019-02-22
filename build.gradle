@@ -1,8 +1,9 @@
 plugins {
     id 'java'
-    id 'org.beryx.runtime' version '1.1.5'
+    id 'application'
     id "name.remal.check-updates" version "1.0.113"
     id 'org.sonarqube' version '2.6.2' apply false
+    id 'org.beryx.runtime' version '1.1.5' apply false
 }
 
 repositories {
@@ -44,6 +45,7 @@ dependencies {
 group = 'dk.acto.web'
 version = '1.0-SNAPSHOT'
 sourceCompatibility = '11'
+targetCompatibility = '11'
 mainClassName = 'dk.acto.web.Main'
 
 test {
@@ -63,10 +65,10 @@ distributions {
     }
 }
 
-runtime {
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
-    modules = ["java.base", "java.logging"]
-}
+//runtime {
+//    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+//    modules = ["java.base", "java.logging"]
+//}
 
 task prepareLambda(type: Zip) {
     archiveClassifier = "lambda"
@@ -76,4 +78,3 @@ task prepareLambda(type: Zip) {
 }
 
 prepareLambda.dependsOn("runtime")
-build.finalizedBy("prepareLambda")
