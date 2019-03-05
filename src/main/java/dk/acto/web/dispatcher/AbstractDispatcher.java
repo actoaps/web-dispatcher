@@ -41,7 +41,6 @@ public abstract class AbstractDispatcher implements Dispatcher {
         return result;
     }
 
-
     protected String decodeEntities(String src) {
         return StringEscapeUtils.unescapeXml(src);
     }
