@@ -32,14 +32,16 @@ dependencies {
     implementation "org.projectlombok:lombok:1.18.6"
     implementation 'io.vavr:vavr:0.10.0'
 
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.guava:guava:27.0.1-jre'
+    implementation 'org.projectlombok:lombok:1.16.18'
+
+    implementation 'javax.mail:mail:1.5.0-b01'
+    
     annotationProcessor "org.projectlombok:lombok:1.18.6"
     annotationProcessor 'io.vavr:vavr:0.10.0'
 
-    compile 'com.google.code.gson:gson:2.8.5'
-    compile 'com.google.guava:guava:27.0.1-jre'
-
     testImplementation 'org.testng:testng:6.14.3'
-    compileOnly 'org.projectlombok:lombok:1.16.18'
 }
 
 group = 'dk.acto.web'

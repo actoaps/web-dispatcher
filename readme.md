@@ -42,6 +42,30 @@ For the slf4j Logger it might look like this:
             "dispatcher": "Log"
         }
     }
+    
+For the Smtp dispatcher it might look like this:
+
+    {
+       "path":{
+          "apiKey":"ibOas8KhECegFlBmIlYMVhsDYQZQNUY5HQSDW",
+          "config":"smtp.office365.com,587,user@example.com,mypassword",
+          "dispatcher":"Smtp"
+    }
+
+The config contains the comma separated SMTP server, port, username and passsword. The SMTP dispatcher does not support sending e-Mail without authentication and TLS. Mail will be sent from "username".
+
+To send a Message through SMTP the message payload must look like this:
+
+    {
+        "to": "you@example.com",
+        "subject": "Test e-mail",
+        "body": "This is a test e-mail",
+        "name": "example.png",
+        "type": "image/png",
+        "data": "iVBORw..."
+    }
+
+The last 3 parameters describe the attachment, data is base64 encoded. The SMTP sender does not currently support 0 or more than 1 attachment.
 
 Which you can then call with curl like this:
 
