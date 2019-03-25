@@ -57,24 +57,32 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
 
         final var subject = message.getPayload().get("subject").getAsString();
         final var body = message.getPayload().get("body").getAsString();
-        final var aName = message.getPayload().get("name").getAsString();
-        final var aType = message.getPayload().get("type").getAsString();
-        final var aData = Base64.getDecoder().decode(message.getPayload().get("data").getAsString());
-        final ByteArrayDataSource bads = new ByteArrayDataSource(aData, aType);
 
-        final var bodyPart = Try.of(MimeBodyPart::new)
-                .andThenTry(x -> x.setDataHandler(new DataHandler(bads)))
-                .andThenTry(x -> x.setFileName(aName))
-                .get();
-
-
-        final var msg = Try.of(() -> new MimeMessage(session))
+        var msg = Try.of(() -> new MimeMessage(session))
                 .andThenTry(x -> x.setFrom(user))
                 .andThenTry(x -> x.setRecipients(Message.RecipientType.TO, toEmail))
                 .andThenTry(x -> x.setSubject(subject, "utf-8"))
                 .andThenTry(x -> x.setText(body, "utf-8"))
-                .andThenTry(x -> x.setContent(new MimeMultipart(bodyPart)))
                 .get();
+
+        // If containing content...
+        if (message.getPayload().get("name") != null && message.getPayload().get("type") != null && message.getPayload().get("data") != null) {
+            final var aName = message.getPayload().get("name").getAsString();
+            final var aType = message.getPayload().get("type").getAsString();
+            final var aData = Base64.getDecoder().decode(message.getPayload().get("data").getAsString());
+            final ByteArrayDataSource bads = new ByteArrayDataSource(aData, aType);
+
+            final var bodyPart = Try.of(MimeBodyPart::new)
+                    .andThenTry(x -> x.setDataHandler(new DataHandler(bads)))
+                    .andThenTry(x -> x.setFileName(aName))
+                    .get();
+
+            try {
+                msg.setContent(new MimeMultipart(bodyPart));
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
 
         return Try.run(() -> Transport.send(msg))
                 .map(x -> "Ok")
