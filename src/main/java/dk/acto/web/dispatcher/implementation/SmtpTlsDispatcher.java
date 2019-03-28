@@ -65,7 +65,7 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
                 .get();
 
         var bodyPart = Try.of(MimeBodyPart::new)
-                .andThenTry(x -> x.setContent(body, "text/html"))
+                .andThenTry(x -> x.setContent(body, "text/html; charset=utf-8"))
                 .get();
 
         var mp = Try.of(() -> new MimeMultipart(bodyPart))
