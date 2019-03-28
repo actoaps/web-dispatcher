@@ -62,8 +62,15 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
                 .andThenTry(x -> x.setFrom(user))
                 .andThenTry(x -> x.setRecipients(Message.RecipientType.TO, toEmail))
                 .andThenTry(x -> x.setSubject(subject, "utf-8"))
-                .andThenTry(x -> x.setText(body, "utf-8"))
                 .get();
+
+        var bodyPart = Try.of(MimeBodyPart::new)
+                .andThenTry(x -> x.setContent(body, "text/html"))
+                .get();
+
+        var mp = Try.of(() -> new MimeMultipart(bodyPart))
+                .get();
+
 
         // If containing content...
         if (message.getPayload().get("name") != null && message.getPayload().get("type") != null && message.getPayload().get("data") != null) {
@@ -73,19 +80,23 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
             final var aData = Base64.getDecoder().decode(message.getPayload().get("data").getAsString());
             final ByteArrayDataSource bads = new ByteArrayDataSource(aData, aType);
 
-            final var bodyPart = Try.of(MimeBodyPart::new)
+            final var newBodyPart = Try.of(MimeBodyPart::new)
                     .andThenTry(x -> x.setDataHandler(new DataHandler(bads)))
                     .andThenTry(x -> x.setFileName(aName))
                     .get();
 
             try {
-                msg.setContent(new MimeMultipart(bodyPart));
+                mp.addBodyPart(newBodyPart);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
         }
 
-        System.out.println("msg: " + msg.toString());
+        try {
+            msg.setContent(mp);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
         return Try.run(() -> Transport.send(msg))
                 .map(x -> "Ok")
