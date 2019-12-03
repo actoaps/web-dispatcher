@@ -110,6 +110,7 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
 
         return Try.run(() -> Transport.send(msg))
                 .map(x -> "Ok")
+                .onFailure(Throwable::printStackTrace)
                 .getOrElse("Error");
     }
 }
