@@ -45,7 +45,7 @@ public class SparkBootstrap {
             String rBody = request.body();
 
             var result = handler.handle(dispatcher, apiKey, dispatcher, rBody);
-
+            System.out.println("The result of the dispatch: " + result);
             response.header("Access-Control-Allow-Origin", "*");
             return result;
         });
