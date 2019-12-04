@@ -28,7 +28,6 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
         user = conf[2];
         pass = conf[3];
 
-        System.out.println("Authenticating with username: " + user + " and pass: " + pass);
         authenticator = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -37,14 +36,11 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
         };
 
         sessionProperties = new Properties();
-        System.out.println("Setting host: " + host);
         sessionProperties.put("mail.smtp.host", host);
-        System.out.println("Setting port: " + port);
         sessionProperties.put("mail.smtp.port", port);
-        System.out.println("Setting auth: true");
         sessionProperties.put("mail.smtp.auth", "true");
-        System.out.println("Setting starttls.enable: true");
         sessionProperties.put("mail.smtp.starttls.enable", "true");
+        sessionProperties.put("mail.smtp.ssl.protocols", "TLSv1.2");
     }
 
     @Override
@@ -55,18 +51,13 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
     @Override
     public String dispatch(DispatchMessage message) {
 
-        System.out.println("TLSEmail Start");
-
         final var toEmail = message.getPayload().get("to").getAsString();
-        System.out.println("toEmail: "+ toEmail);
 
         final var session = Session.getInstance(sessionProperties, authenticator);
 
         final var subject = message.getPayload().get("subject").getAsString();
-        System.out.println("subject: "+ subject);
 
         final var body = message.getPayload().get("body").getAsString();
-        System.out.println("body: "+ body);
 
         var msg = Try.of(() -> new MimeMessage(session))
                 .andThenTry(x -> x.setFrom(user))
