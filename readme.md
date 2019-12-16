@@ -48,11 +48,11 @@ For the Smtp dispatcher it might look like this:
     {
        "path":{
           "apiKey":"ibOas8KhECegFlBmIlYMVhsDYQZQNUY5HQSDW",
-          "config":"smtp.office365.com,587,user@example.com,mypassword",
+          "config":"smtp.office365.com,587,user@example.com,mypassword,noreply@example.com",
           "dispatcher":"Smtp"
     }
 
-The config contains the comma separated SMTP server, port, username and passsword. The SMTP dispatcher does not support sending e-Mail without authentication and TLS. Mail will be sent from "username".
+The config contains the comma separated SMTP server, port, username, passsword and "from" mail-address. The SMTP dispatcher does not support sending e-Mail without authentication and TLS. If no "from" mail-address is set, the mail will be sent from "username".
 
 To send a Message through SMTP the message payload must look like this:
 
@@ -83,7 +83,7 @@ configuration for the slack dispatcher is simply the
 webhook URL.  
 
 * dispatcher - the actual dispatcher to use, currently only
-"Slack" and "Log" are valid values.
+"Slack", "Log", "Twilio" and "Smtp" are valid values.
 
 The service by default runs on port 8080. The simplest way
 to change this (other than in the code), is remapping it in
