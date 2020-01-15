@@ -16,8 +16,8 @@ if (System.properties['sonar.login'] != null) {
     jacoco {
         toolVersion = "0.8.2"
     }
-
-    build.finalizedBy('sonarqube')
+    // Temporarilly disable Sonar Analysis until this issue is fixed: https://github.com/spotbugs/sonar-findbugs/issues/293
+    // build.finalizedBy('sonarqube')
 }
 
 dependencies {
@@ -37,7 +37,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.16.18'
 
     implementation 'javax.mail:mail:1.5.0-b01'
-    
+
     annotationProcessor "org.projectlombok:lombok:1.18.6"
     annotationProcessor 'io.vavr:vavr:0.10.0'
 

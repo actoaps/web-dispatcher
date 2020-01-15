@@ -13,4 +13,5 @@ jacoco.exec
 
 .gradle/
 build/
+generated/
 gradle.properties
