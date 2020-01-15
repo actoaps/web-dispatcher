@@ -1,0 +1,16 @@
+
+.idea/
+*.iml
+out/
+
+target/
+jacoco.exec
+
+# Mac things
+.DS_Store
+.AppleDouble
+.LSOverride
+
+.gradle/
+build/
+gradle.properties
