@@ -26,9 +26,7 @@ jobs:
 
       - name: Gradle Build
         run: |
-          ./gradlew clean build -DversionOverride=$BUILD_ID
-        env:
-          BUILD_ID: ${{ steps.spell.outputs.version }}
+          ./gradlew clean build
 
       - name: Release to Docker
         run: |
