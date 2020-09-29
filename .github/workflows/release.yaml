@@ -16,8 +16,8 @@ jobs:
           fetch-depth: 0
 
       - name: Calculate version
-          id: spell
-          uses: actoaps/version-spell@v3
+        id: spell
+        uses: actoaps/version-spell@v3
 
       - name: Set up JDK 13
         uses: actions/setup-java@v1
