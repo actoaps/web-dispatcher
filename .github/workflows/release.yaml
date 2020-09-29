@@ -30,7 +30,7 @@ jobs:
 
           export BUILD_ID=$(git rev-list --no-merges --count $GITHUB_REF)
 
-          docker build -t actoaps/web-dispatcher ./auth
+          docker build -t actoaps/web-dispatcher .
 
           docker tag actoaps/web-dispatcher registry.hub.docker.com/actoaps/web-dispatcher:1.0.$BUILD_ID
 
