@@ -48,11 +48,11 @@ For the Smtp dispatcher it might look like this:
     {
        "path":{
           "apiKey":"ibOas8KhECegFlBmIlYMVhsDYQZQNUY5HQSDW",
-          "config":"smtp.office365.com,587,user@example.com,mypassword,noreply@example.com",
+          "config":"smtp.office365.com,587,user@example.com,mypassword,noreply@example.com,backup@example.com",
           "dispatcher":"Smtp"
     }
 
-The config contains the comma separated SMTP server, port, username, passsword and "from" mail-address. The SMTP dispatcher does not support sending e-Mail without authentication and TLS. If no "from" mail-address is set, the mail will be sent from "username".
+The config contains the comma separated SMTP server, port, username, passsword, an optional "from" mail-address and an optional bcc mail-address that will be set as bcc on all mails. The SMTP dispatcher does not support sending e-Mail without authentication and TLS. If no "from" mail-address is set, the mail will be sent from "username".
 
 To send a Message through SMTP the message payload must look like this:
 

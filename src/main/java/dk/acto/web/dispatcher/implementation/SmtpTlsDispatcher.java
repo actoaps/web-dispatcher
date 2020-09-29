@@ -20,6 +20,7 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
     private final String user;
     private final String pass;
     private final String from;
+    private final String bcc;
 
     public SmtpTlsDispatcher(String configuration, String apiKey) {
         super(configuration, apiKey);
@@ -29,6 +30,7 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
         user = conf[2];
         pass = conf[3];
         from = conf.length > 4 ? conf[4] : null;
+        bcc = conf.length > 5 ? conf [5] : null;
 
         authenticator = new Authenticator() {
             @Override
@@ -64,6 +66,7 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
         var msg = Try.of(() -> new MimeMessage(session))
                 .andThenTry(x -> x.setFrom(null != from ? from : user))
                 .andThenTry(x -> x.setRecipients(Message.RecipientType.TO, toEmail))
+                .andThenTry(x -> x.setRecipients(Message.RecipientType.BCC, bcc))
                 .andThenTry(x -> x.setSubject(subject, "utf-8"))
                 .get();
 
