@@ -20,7 +20,4 @@ jobs:
 
       - name: Gradle Build
         run: |
-          ./gradlew clean build -Dsonar.host.url=$SONAR_HOST -Dsonar.login=$SONAR_LOGIN
-        env:
-          SONAR_HOST: ${{ secrets.SONAR_HOST }}
-          SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
+          ./gradlew clean build
