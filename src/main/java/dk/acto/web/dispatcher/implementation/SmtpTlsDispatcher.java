@@ -66,7 +66,11 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
         var msg = Try.of(() -> new MimeMessage(session))
                 .andThenTry(x -> x.setFrom(null != from ? from : user))
                 .andThenTry(x -> x.setRecipients(Message.RecipientType.TO, toEmail))
-                .andThenTry(x -> x.addRecipients(Message.RecipientType.BCC, bcc))
+                .andThenTry(x -> {
+                    if (bcc != null) {
+                        x.addRecipients(Message.RecipientType.BCC, bcc);
+                    }
+                })
                 .andThenTry(x -> x.setSubject(subject, "utf-8"))
                 .get();
 
