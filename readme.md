@@ -3,7 +3,7 @@ Acto web-dispatcher
 Acto web-dispatcher is a small microservice that accepts JSON
 data and dispatches it to one or more channels, like a modern
 day formmail.pl, except that it currently doesn't support form
-data or sending mail.
+data.
 
 The current implementation supports configurable HTTP POSTS
 of JSON data. Acto web-dispatcher is written in Java and builds
