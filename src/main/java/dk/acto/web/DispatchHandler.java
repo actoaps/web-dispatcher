@@ -13,11 +13,6 @@ import java.util.Map;
 @Slf4j
 public class DispatchHandler {
     private final Map<String, Dispatcher> dispatcherMap = ConfigurationFactory.configure();
-    private final JsonParser jsonParser;
-
-    public DispatchHandler(JsonParser jsonParser) {
-        this.jsonParser = jsonParser;
-    }
 
     public String handle(String dispatcherName, String apiKey, String topic, String body ) throws NoSuchDispatcher, InvalIdApiKey, MalformedRequest {
 
@@ -31,7 +26,7 @@ public class DispatchHandler {
             throw new InvalIdApiKey();
         }
 
-        var root = jsonParser.parse(body).getAsJsonObject();
+        var root = JsonParser.parseString(body).getAsJsonObject();
         var message = new DispatchMessage(topic, root);
 
         if (!dispatcher.validate(message).isEmpty()) {
