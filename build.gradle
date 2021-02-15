@@ -1,68 +1,39 @@
 plugins {
+    id 'io.codearte.nexus-staging' version '0.21.2'
     id 'java'
-    id 'application'
-    id "name.remal.check-updates" version "1.2.2"
-    id 'org.sonarqube' version '3.1.1' apply false
-    id 'org.beryx.runtime' version '1.12.1' apply false
 }
 
-repositories {
-    mavenCentral()
-}
-
-if (System.properties['sonar.login'] != null) {
-    apply plugin: 'jacoco'
-    apply plugin: 'org.sonarqube'
-    jacoco {
-        toolVersion = "0.8.2"
-    }
-    // Temporarilly disable Sonar Analysis until this issue is fixed: https://github.com/spotbugs/sonar-findbugs/issues/293
-    // build.finalizedBy('sonarqube')
-}
-
-dependencies {
-    implementation 'com.sparkjava:spark-core:2.9.3'
-    implementation 'org.slf4j:slf4j-simple:1.7.30'
-
-    implementation "com.squareup.okhttp3:okhttp:4.9.1"
-    implementation 'com.github.spullara.mustache.java:compiler:0.9.7'
-    implementation 'org.apache.commons:commons-text:1.9'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
-
-    implementation "org.projectlombok:lombok:1.18.18"
-    implementation 'io.vavr:vavr:0.10.3'
-
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.guava:guava:30.1-jre'
-
-    implementation 'javax.mail:mail:1.5.0-b01'
-
-    annotationProcessor "org.projectlombok:lombok:1.18.18"
-    annotationProcessor 'io.vavr:vavr:0.10.3'
-
-    testImplementation 'org.testng:testng:7.3.0'
-}
-
-group = 'dk.acto.web'
-version = '1.0-SNAPSHOT'
-sourceCompatibility = '15'
-targetCompatibility = '15'
-mainClassName = 'dk.acto.web.Main'
-
-distributions {
-    main {
-        contents {
-            filesMatching("**/bootstrap") {
-                expand (["executeMe": "bin/" + project.name,
-                         "ltr":"\$LAMBDA_TASK_ROOT"
-                ])
-            }
-            into "/"
+subprojects {
+    tasks.withType(Test) {
+        testLogging {
+            // set options for log level LIFECYCLE
+            events "FAILED",
+                    "PASSED",
+                    "SKIPPED"
+            "STANDARD_OUT"
+            exceptionFormat "FULL"
+            showExceptions true
+            showCauses true
+            showStackTraces true
         }
     }
-}
 
-test {
-    ignoreFailures = false
-    useTestNG()
+    apply plugin: 'jacoco'
+
+    plugins.withId('java') {
+        jacoco {
+            toolVersion = "0.8.6"
+        }
+
+        jacocoTestReport {
+            dependsOn(test)
+            reports {
+                xml.enabled true
+                csv.enabled false
+                html.destination file("${buildDir}/jacocoHtml")
+            }
+        }
+
+        test.finalizedBy(jacocoTestReport)
+    }
 }
