@@ -1,6 +1,5 @@
 package dk.acto.web.dispatcher.implementation;
 
-import com.google.gson.Gson;
 import dk.acto.web.DispatchMessage;
 import dk.acto.web.dispatcher.AbstractDispatcher;
 import io.vavr.collection.List;
@@ -8,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
