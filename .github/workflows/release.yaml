@@ -38,7 +38,7 @@ jobs:
         run: |
           docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
 
-          docker build -t actoaps/web-dispatcher:$BUILD_ID .
+          docker build -t actoaps/web-dispatcher:$BUILD_ID ./webservice
 
           docker tag actoaps/web-dispatcher:$BUILD_ID actoaps/web-dispatcher:latest
 
