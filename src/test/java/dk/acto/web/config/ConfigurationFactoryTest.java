@@ -1,13 +1,15 @@
 package dk.acto.web.config;
 
 import dk.acto.web.dispatcher.implementation.LoggerDispatcher;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Map;
 
-import static org.testng.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 
 public class ConfigurationFactoryTest {
 

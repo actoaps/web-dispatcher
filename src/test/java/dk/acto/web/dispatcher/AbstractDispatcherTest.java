@@ -5,7 +5,7 @@ import com.google.gson.JsonParser;
 import dk.acto.web.dispatcher.implementation.LoggerDispatcher;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import static org.testng.Assert.assertEquals;
 
@@ -35,8 +35,7 @@ public class AbstractDispatcherTest {
                 "        }\n" +
                 "    }\n" +
                 "}\n";
-        JsonParser jp = new JsonParser();
-        JsonObject json = jp.parse(test).getAsJsonObject();
+        JsonObject json = JsonParser.parseString(test).getAsJsonObject();
         LoggerDispatcher subject = new LoggerDispatcher("", "a");
         List<Tuple2<String, String>> result = subject.flattenJson(json);
         assertEquals(10, result.length());
@@ -50,8 +49,7 @@ public class AbstractDispatcherTest {
                 "\"phone\":\"phone\",\n" +
                 "\"message\":\"message\"\n" +
                 "}";
-        JsonParser jp = new JsonParser();
-        JsonObject json = jp.parse(test).getAsJsonObject();
+        JsonObject json = JsonParser.parseString(test).getAsJsonObject();
         LoggerDispatcher subject = new LoggerDispatcher("", "a");
         List<Tuple2<String, String>> result = subject.flattenJson(json);
         assertEquals(result.length(), 4);

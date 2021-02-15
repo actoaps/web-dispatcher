@@ -10,7 +10,6 @@ import dk.acto.web.dispatcher.DispatcherFactory;
 import java.util.Map;
 
 public class ConfigurationFactory {
-    private final static JsonParser parser = new JsonParser();
     private final static Gson gson = new Gson();
 
     public static Map<String, Dispatcher> configure () {
@@ -18,7 +17,7 @@ public class ConfigurationFactory {
         final String configString = System.getenv("ACTO_CONF");
         final DispatcherFactory df = new DispatcherFactory();
 
-        JsonObject conf = parser.parse(configString).getAsJsonObject();
+        JsonObject conf = JsonParser.parseString(configString).getAsJsonObject();
         ImmutableMap.Builder<String, Dispatcher> builder = ImmutableMap.builder();
         conf.entrySet().forEach(x ->
                 builder.put(
