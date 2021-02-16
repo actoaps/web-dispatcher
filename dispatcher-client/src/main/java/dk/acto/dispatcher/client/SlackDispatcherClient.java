@@ -1,3 +1,5 @@
+package dk.acto.dispatcher.client;
+
 import lombok.AllArgsConstructor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
