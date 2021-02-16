@@ -1,10 +1,7 @@
 package dk.acto.dispatcher.client;
 
 import lombok.AllArgsConstructor;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import okhttp3.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,12 +16,13 @@ public class SlackDispatcherClient implements DispatcherClient <Map<String, Stri
 
     @Override
     public void dispatch (Map<String, String> payload) throws IOException {
+        var url = HttpUrl.parse(dispatcherUrl + dispatcherPath);
         var body = RequestBody.create(
                 jsonSerializer.toJson(payload),
                 MediaType.parse("application/json; charset=utf-8"));
 
         var request = new Request.Builder()
-                .url(dispatcherUrl + dispatcherPath)
+                .url(url)
                 .header("Authorization", String.format("Bearer %s", apiKey))
                 .post(body)
                 .build();
