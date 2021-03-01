@@ -83,7 +83,8 @@ public class SmtpTlsDispatcher extends AbstractDispatcher {
 
 
         // If containing content...
-        if (message.getPayload().get("name") != null && message.getPayload().get("type") != null && message.getPayload().get("data") != null) {
+        if (!message.getPayload().get("name").isJsonNull() && !message.getPayload().get("type").isJsonNull()
+                && !message.getPayload().get("data").isJsonNull()) {
             System.out.println("The message contains some content");
             final var aName = message.getPayload().get("name").getAsString();
             final var aType = message.getPayload().get("type").getAsString();
