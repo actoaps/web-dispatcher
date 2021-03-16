@@ -11,6 +11,6 @@ public class SlackDispatcherClient implements DispatcherClient <Map<String, Stri
 
     @Override
     public void dispatch (Map<String, String> payload) throws IOException {
-        dispatcherClient.sendDispatchRequest(dispatcherClient);
+        dispatcherClient.sendDispatchRequest(payload);
     }
 }
