@@ -25,6 +25,6 @@ public class DispatcherHttpClient {
                 .post(body)
                 .build();
 
-        client.newCall(request).execute();
+        client.newCall(request).execute().close();
     }
 }
