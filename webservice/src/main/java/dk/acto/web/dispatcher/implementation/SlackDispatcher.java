@@ -35,7 +35,7 @@ public class SlackDispatcher extends AbstractDispatcher {
 
             RequestBody body = RequestBody.create(
                     MediaType.parse(("application/json; charset=utf-8")),
-                    String.format("{\"text\":\"%s\"}", temp.toString()));
+                    temp.toString());
 
             Request request = new Request.Builder()
                     .url(getConfiguration())
