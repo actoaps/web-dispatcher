@@ -34,20 +34,31 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
 
-      - name: Release to Docker
-        run: |
-          docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+      - name: Set up QEMU for multiarch docker builds
+        uses: docker/setup-qemu-action@master
+        with:
+          platforms: all
 
-          docker build -t actoaps/web-dispatcher:$BUILD_ID ./webservice
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@master
 
-          docker tag actoaps/web-dispatcher:$BUILD_ID actoaps/web-dispatcher:latest
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-          docker push actoaps/web-dispatcher:$BUILD_ID
-          docker push actoaps/web-dispatcher:latest
-        env:
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          BUILD_ID: ${{ steps.spell.outputs.version }}
+      - name: Build webservice and publish to AWS ECR
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./webservice
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            actoaps/web-dispatcher:${{ steps.spell.outputs.version }}
+            actoaps/web-dispatcher:latest
 
       - name: Release client to Maven Central
         run: |
