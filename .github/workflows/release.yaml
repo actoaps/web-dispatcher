@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build webservice and publish to AWS ECR
+      - name: Build webservice and publish to Docker hub
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
