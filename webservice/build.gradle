@@ -48,6 +48,7 @@ version = '1.0-SNAPSHOT'
 sourceCompatibility = '15'
 targetCompatibility = '15'
 mainClassName = 'dk.acto.web.Main'
+applicationDefaultJvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:6001"]
 
 distributions {
     main {
