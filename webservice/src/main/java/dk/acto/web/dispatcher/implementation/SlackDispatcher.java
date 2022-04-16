@@ -11,6 +11,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -27,15 +28,16 @@ public class SlackDispatcher extends AbstractDispatcher {
     public String dispatch(DispatchMessage message) {
         try {
             List<Tuple2<String, String>> result = parse(message);
+
             StringWriter temp = new StringWriter();
             this.mustache.execute(temp, result.asJava()).flush();
-
 
             OkHttpClient client = new OkHttpClient();
 
             RequestBody body = RequestBody.create(
-                    MediaType.parse(("application/json; charset=utf-8")),
-                    temp.toString());
+                    StringEscapeUtils.unescapeHtml4(temp.toString()),
+                    MediaType.parse(("application/json; charset=utf-8"))
+            );
 
             Request request = new Request.Builder()
                     .url(getConfiguration())
@@ -60,6 +62,5 @@ public class SlackDispatcher extends AbstractDispatcher {
         return flattenJson(message.getPayload())
                 .map(x -> x.update2(decodeEntities(x._2())))
                 .map(x -> x.update2(encodeNewLines(x._2())));
-
     }
 }
